@@ -1,0 +1,41 @@
+pipeline{
+    tools{
+        jdk 'myjdk'
+        maven 'mymaven'
+    }
+    agent any
+    
+    stages{
+        stage('clone git repo')
+        {
+            steps {
+                git 'https://github.com/ndarshan559/DevOpsCodeDemo.git'
+            }
+        }
+        stage('compile the code')
+        {
+            steps{
+                sh 'mvn compile'
+            }
+        }
+        stage('code review')
+        {
+            steps{
+                sh 'mvn pmd:pmd'
+            }
+        }
+        stage('unit testing')
+        {
+            steps{
+                sh 'mvn test'
+            }
+          
+        }
+        stage('package')
+        {
+            steps{
+                sh 'mvn package'
+            }
+        }
+    }
+}
